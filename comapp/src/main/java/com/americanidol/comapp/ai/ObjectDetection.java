@@ -24,6 +24,7 @@ import ai.djl.repository.zoo.ZooModel;
 import ai.djl.training.util.ProgressBar;
 import ai.djl.translate.TranslateException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -43,15 +44,11 @@ public final class ObjectDetection {
 
     private ObjectDetection() {}
 
-    public static void main(String[] args) throws IOException, ModelException, TranslateException {
-        DetectedObjects detection = ObjectDetection.predict();
-        logger.info("{}", detection);
-    }
-
-    public static DetectedObjects predict() throws IOException, ModelException, TranslateException {
-        Path imageFile = Paths.get("src/test/resources/dog_bike_car.jpg");
-        Image img = ImageFactory.getInstance().fromFile(imageFile);
-
+    public static DetectedObjects predict(InputStream inputStream) throws IOException, ModelException, TranslateException {
+        //Path imageFile = Paths.get("src/test/resources/dog_bike_car.jpg");
+        //Image img = ImageFactory.getInstance().fromFile(imageFile);
+    	Image img = ImageFactory.getInstance().fromInputStream(inputStream);
+    	
         String backbone;
         if ("TensorFlow".equals(Engine.getDefaultEngineName())) {
             backbone = "mobilenet_v2";
@@ -71,13 +68,13 @@ public final class ObjectDetection {
         try (ZooModel<Image, DetectedObjects> model = criteria.loadModel()) {
             try (Predictor<Image, DetectedObjects> predictor = model.newPredictor()) {
                 DetectedObjects detection = predictor.predict(img);
-                saveBoundingBoxImage(img, detection);
+                //saveBoundingBoxImage(img, detection);
                 return detection;
             }
         }
     }
 
-    private static void saveBoundingBoxImage(Image img, DetectedObjects detection)
+    /*private static void saveBoundingBoxImage(Image img, DetectedObjects detection)
             throws IOException {
         Path outputDir = Paths.get("build/output");
         Files.createDirectories(outputDir);
@@ -88,5 +85,5 @@ public final class ObjectDetection {
         // OpenJDK can't save jpg with alpha channel
         img.save(Files.newOutputStream(imagePath), "png");
         logger.info("Detected objects image has been saved in: {}", imagePath);
-    }
+    }*/
 }

@@ -7,6 +7,7 @@ public class ResponseDto {
 	private String itemType;
 	private String itemName;
 	private List<String> responseText;
+	private ErrorDto error;
 	
 	public ResponseDto() {
 		
@@ -34,6 +35,14 @@ public class ResponseDto {
 
 	public void setResponseText(List<String> responseText) {
 		this.responseText = responseText;
+	}
+	
+	public ErrorDto getError() {
+		return error;
+	}
+
+	public void setError(ErrorDto error) {
+		this.error = error;
 	}
 
 	@Override
