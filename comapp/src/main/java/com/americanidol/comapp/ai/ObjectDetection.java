@@ -45,9 +45,9 @@ public final class ObjectDetection {
     private ObjectDetection() {}
 
     public static DetectedObjects predict(InputStream inputStream) throws IOException, ModelException, TranslateException {
-        Path imageFile = Paths.get("src/main/resources/dog_bike_car.jpg");
-        Image img = ImageFactory.getInstance().fromFile(imageFile);
-    	//Image img = ImageFactory.getInstance().fromInputStream(inputStream);
+        //Path imageFile = Paths.get("src/main/resources/dog_bike_car.jpg");
+        //Image img = ImageFactory.getInstance().fromFile(imageFile);
+    	Image img = ImageFactory.getInstance().fromInputStream(inputStream);
     	
         String backbone;
         if ("TensorFlow".equals(Engine.getDefaultEngineName())) {
