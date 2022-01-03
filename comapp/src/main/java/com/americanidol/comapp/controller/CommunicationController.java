@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.americanidol.comapp.domain.Response;
 import com.americanidol.comapp.dto.ErrorDto;
 import com.americanidol.comapp.dto.ResponseDto;
+import com.americanidol.comapp.dto.ResultDto;
 import com.americanidol.comapp.service.ResponseHandler;
 
 @RestController
@@ -54,8 +55,10 @@ public class CommunicationController {
 	
 	private void buildResponse(Map<String, List<String>> results, ResponseDto response) {
 		for (Map.Entry<String, List<String>> entry : results.entrySet()) {
-			response.setItemName(entry.getKey());
-			response.setResponseText(entry.getValue());
+			ResultDto result = new ResultDto();
+			result.setItemName(entry.getKey());
+			result.setResponseText(entry.getValue());
+			response.getResults().add(result);
 		}
 	}
 }
