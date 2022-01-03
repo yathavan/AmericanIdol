@@ -1,44 +1,61 @@
 package com.americanidol.comapp.domain;
 
+import java.io.Serializable;
+import java.util.Set;
+
 import javax.persistence.*;
 
 @Entity
-@Table(name="response")
-public class Response {
+@Table(name = "response")
+public class Response implements Serializable{
 
-    @Id
+	private static final long serialVersionUID = 1L;
+	
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long responseId;
-    private String description;
+	@Column(name="response_id")
+    private Long id;
+	@Column(name="description")
+	private String description;
+	@ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "item_id", nullable = false)
+    private Item item;
+	@OneToMany(mappedBy = "response", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<AdditionalInfo> additionalInfos;
+	
+	public Response() {
+		
+	}
 
-    @ManyToOne
-    @JoinColumn(name="item_id", nullable=false)
-    private Item itemId;
+	public Long getId() {
+		return id;
+	}
 
-    public Response() {
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public long getResponseId() {
-        return responseId;
-    }
+	public String getDescription() {
+		return description;
+	}
 
-    public void setResponseId(long responseId) {
-        this.responseId = responseId;
-    }
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
-    public String getDescription() {
-        return description;
-    }
+	public Item getItem() {
+		return item;
+	}
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+	public void setItem(Item item) {
+		this.item = item;
+	}
 
-    public Item getItemId() {
-        return itemId;
-    }
+	public Set<AdditionalInfo> getAdditionalInfos() {
+		return additionalInfos;
+	}
 
-    public void setItemId(Item itemId) {
-        this.itemId = itemId;
-    }
+	public void setAdditionalInfos(Set<AdditionalInfo> additionalInfos) {
+		this.additionalInfos = additionalInfos;
+	}
 }

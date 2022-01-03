@@ -1,32 +1,51 @@
 package com.americanidol.comapp.domain;
 
+import java.io.Serializable;
+import java.util.Set;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "category")
-public class Category {
+public class Category implements Serializable{
 
-    @Id
+	private static final long serialVersionUID = 1L;
+	
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long categoryId;
-    private String name;
+	@Column(name="category_id")
+    private Long id;
+	@Column(name="name")
+	private String name;
+	@OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Item> items;
+	
+	public Category() {
+		
+	}
 
-    public Category() {
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public long getCategoryId() {
-        return categoryId;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public void setCategoryId(long categoryId) {
-        this.categoryId = categoryId;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public Set<Item> getItems() {
+		return items;
+	}
+
+	public void setItems(Set<Item> items) {
+		this.items = items;
+	}
+	
 }

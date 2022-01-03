@@ -1,6 +1,7 @@
 package com.americanidol.comapp.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +32,7 @@ public class CommunicationController {
 			try {
 				List<String> objects = responseHandler.detectObjects(file);
 				if(!objects.isEmpty()) {
-					List<Response> results = responseHandler.getResponses();
+					Map<String, List<String>> results = responseHandler.getResponses(objects);
 					if(results != null) {
 						buildResponse(results, response);
 					}else {
@@ -51,7 +52,10 @@ public class CommunicationController {
 		return response;
 	}
 	
-	private void buildResponse(List<Response> results, ResponseDto response) {
-		
+	private void buildResponse(Map<String, List<String>> results, ResponseDto response) {
+		for (Map.Entry<String, List<String>> entry : results.entrySet()) {
+			response.setItemName(entry.getKey());
+			response.setResponseText(entry.getValue());
+		}
 	}
 }

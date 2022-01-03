@@ -1,44 +1,61 @@
 package com.americanidol.comapp.domain;
 
+import java.io.Serializable;
+import java.util.Set;
+
 import javax.persistence.*;
 
 @Entity
-@Table(name="item")
-public class Item {
+@Table(name = "item")
+public class Item implements Serializable{
 
-    @Id
+	private static final long serialVersionUID = 1L;
+	
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long itemId;
-    private String name;
+	@Column(name="item_id")
+    private Long id;
+	@Column(name="name")
+	private String name;
+	@ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category;
+	@OneToMany(mappedBy = "item", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Response> responses;
+	
+	public Item() {
+		
+	}
 
-    @ManyToOne
-    @JoinColumn(name="category_id", nullable=false)
-    private Category categoryId;
+	public Long getId() {
+		return id;
+	}
 
-    public Item() {
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public long getItemId() {
-        return itemId;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setItemId(long itemId) {
-        this.itemId = itemId;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public Category getCategory() {
+		return category;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setCategory(Category category) {
+		this.category = category;
+	}
 
-    public Category getCategoryId() {
-        return categoryId;
-    }
+	public Set<Response> getResponses() {
+		return responses;
+	}
 
-    public void setCategoryId(Category categoryId) {
-        this.categoryId = categoryId;
-    }
+	public void setResponses(Set<Response> responses) {
+		this.responses = responses;
+	}
 }
