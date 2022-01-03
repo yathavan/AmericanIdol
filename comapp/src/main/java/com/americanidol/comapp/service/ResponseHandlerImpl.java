@@ -52,7 +52,7 @@ public class ResponseHandlerImpl implements ResponseHandler{
 	public Map<String, List<String>> getResponses(List<String> objects) {
 		Map<String, List<String>> results = new HashMap<String, List<String>>();
 		for(String object : objects) {
-			Item item = itemRepository.findByName(object);
+			Item item = itemRepository.findByNameIgnoreCase(object);
 			if(item != null && item.getResponses() != null && !item.getResponses().isEmpty()) {
 				List<String> responses = new ArrayList<>();
 				item.getResponses().forEach(r->responses.add(r.getDescription())); 

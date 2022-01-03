@@ -33,7 +33,7 @@ public class CommunicationController {
 				List<String> objects = responseHandler.detectObjects(file);
 				if(!objects.isEmpty()) {
 					Map<String, List<String>> results = responseHandler.getResponses(objects);
-					if(results != null) {
+					if(!results.isEmpty()) {
 						buildResponse(results, response);
 					}else {
 						response.setError(new ErrorDto("E404", "No response found"));
